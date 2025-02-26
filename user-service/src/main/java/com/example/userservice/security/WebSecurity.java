@@ -17,7 +17,6 @@ public class WebSecurity {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/users/**").permitAll()
                     .requestMatchers("/user-service/**").permitAll()
                     .requestMatchers("/h2-console/**").permitAll() // H2 콘솔 접근 허용
             ).headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));

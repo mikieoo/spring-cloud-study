@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: user-service'
+    name: user-service
 
   datasource:
     driver-class-name: org.h2.Driver
