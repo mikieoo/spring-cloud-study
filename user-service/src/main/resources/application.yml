@@ -17,6 +17,7 @@ spring:
 
 eureka:
   instance:
+    prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     register-with-eureka: true
@@ -26,3 +27,11 @@ eureka:
 
 greeting:
   message: Welcome to the Simple E-commerce.
+
+logging:
+  level:
+    com.example.userservice: DEBUG
+
+#token:
+#  expiration_time: 86400000
+#  secret: "asdfghjklzxcvbnmqwertyuio1234567890qetuadg2sdlfkhalfdihasdufh9o283y48y4"

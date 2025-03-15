@@ -9,7 +9,6 @@ import com.example.userservice.vo.ResponseUser;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-service")
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class UserController {
      private final Environment environment;
@@ -28,8 +27,11 @@ public class UserController {
 
     @GetMapping("/health_check")
     public String status() {
-        return String.format("It's Working in User Service. %s",
-                environment.getProperty("local.server.port"));
+        return String.format("It's Working in User Service"
+                + " , port(local.server.port)=" + environment.getProperty("local.server.port")
+                + " , port(server.port)=" + environment.getProperty("server.port")
+                + " , token secret=" + environment.getProperty("token.secret")
+                + " , token expiration time=" + environment.getProperty("token.expiration_time"));
     }
 
     @GetMapping("/welcome")
