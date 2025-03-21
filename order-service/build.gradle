@@ -51,3 +51,7 @@ hibernate {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.named('processAot') {
+	enabled = false
+}
