@@ -10,6 +10,12 @@ eureka:
 spring:
   application:
     name: application-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    stream:
+      username: guest
+      password: guest
 
   cloud:
     gateway:
@@ -49,6 +55,15 @@ spring:
             - RemoveRequestHeader=Cookie # 리퀘스트 헤더값 초기화 시킴
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie # 리퀘스트 헤더값 초기화 시킴
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
@@ -79,5 +94,11 @@ spring:
                 preLogger: true
                 postLogger: true
 
-token:
-  secret: asdfghjklzxcvbnmqwertyuio1234567890qetuadg2sdlfkhalfdihasdufh9o283y48y4
+#token:
+#  secret: asdfghjklzxcvbnmqwertyuio1234567890qetuadg2sdlfkhalfdihasdufh9o283y48y4
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace, busrefresh

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Base64;
 
@@ -44,7 +45,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             }
 
             String authorizationHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-            String jwt = authorizationHeader.replace("Bearer", "");
+            String jwt = authorizationHeader.replace("Bearer ", "").trim();
 
             if (!isJwtValid(jwt)) {
                 return onError(exchange, "JWT token is not valid.", HttpStatus.UNAUTHORIZED);
@@ -58,13 +59,12 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         try {
             String secretKey = environment.getProperty("token.secret");
 
-            byte[] decodedKey = Base64.getDecoder().decode(secretKey);
-            Key key = Keys.hmacShaKeyFor(decodedKey);
+            Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(jwt)  // ✅ `parseClaimsJws()`로 변경
+                    .parseClaimsJws(jwt)
                     .getBody();
 
             return claims.getSubject() != null;
