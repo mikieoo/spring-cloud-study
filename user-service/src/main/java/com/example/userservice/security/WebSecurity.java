@@ -39,6 +39,7 @@ public class WebSecurity {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/user-service/**").permitAll()
+                    .requestMatchers("/actuator/**").permitAll()
                     .requestMatchers("/h2-console/AuthenticationFilter**").permitAll() // H2 콘솔 접근 허용
                     .requestMatchers("/**").access(new WebExpressionAuthorizationManager("hasIpAddress('192.168.0.4')"))
             )
