@@ -41,7 +41,7 @@ public class WebSecurity {
                     .requestMatchers("/user-service/**").permitAll()
                     .requestMatchers("/actuator/**").permitAll()
                     .requestMatchers("/h2-console/AuthenticationFilter**").permitAll() // H2 콘솔 접근 허용
-                    .requestMatchers("/**").access(new WebExpressionAuthorizationManager("hasIpAddress('192.168.0.4')"))
+                    .requestMatchers("/**").access(new WebExpressionAuthorizationManager("hasIpAddress('192.168.0.5')"))
             )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .addFilter(authenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)))); // ✅ `AuthenticationFilter`를 Bean으로 설정

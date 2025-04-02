@@ -54,7 +54,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie # 리퀘스트 헤더값 초기화 시킴
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
+            #- AuthorizationHeaderFilter
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -101,4 +101,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, httptrace, busrefresh
+        include: "*"

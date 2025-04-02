@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: user-service
+  spring:
+    zipkin:
+      base-url: http://localhost:9411
+      enabled: true
   rabbitmq:
     host: 127.0.0.1
     port: 5672
@@ -40,11 +44,19 @@ logging:
     com.example.userservice.client: DEBUG
 
 management:
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      consume: B3
+      produce: B3
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, busrefresh
-
+        include: "*"
 #token:
 #  expiration_time: 86400000
 #  secret: "asdfghjklzxcvbnmqwertyuio1234567890qetuadg2sdlfkhalfdihasdufh9o283y48y4"
